@@ -2,31 +2,38 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LifeOS - Time Manager</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ماژول مدیریت زمان – LifeOS</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/jalaali-js@1.1.0/dist/jalaali.min.js"></script>
 </head>
 <body>
-  <h1>ماژول مدیریت زمان - LifeOS</h1>
+  <h1>ماژول مدیریت زمان – LifeOS</h1>
 
   <form id="taskForm">
-    <input type="text" id="macroTask" placeholder="عنوان وظیفه اصلی (Macro Task)" required />
-    <input type="text" id="subtask" placeholder="ریزتسک اول" required />
-    
-    <select id="lifeComponent">
-      <option value="ذهن">ذهن</option>
-      <option value="جسم">جسم</option>
-      <option value="منابع">منابع</option>
-      <option value="روابط">روابط</option>
-      <option value="معنویت">معنویت</option>
-    </select>
+    <label>ماکروتسک (وظیفه کلان):</label>
+    <input type="text" id="macroTask" placeholder="مثلاً: نوشتن مقاله" required />
 
-    <input type="date" id="deadline" />
-    <button type="submit">افزودن وظیفه</button>
+    <label>ریزتسک (میکروتسک):</label>
+    <input type="text" id="microTask" placeholder="مثلاً: تحقیق منابع اولیه" required />
+
+    <label>تاریخ (میلادی):</label>
+    <input type="date" id="taskDate" required />
+
+    <label>ساعت:</label>
+    <input type="number" id="hour" min="0" max="23" value="12" />
+
+    <label>دقیقه:</label>
+    <input type="number" id="minute" min="0" max="59" value="0" />
+
+    <label>ثانیه:</label>
+    <input type="number" id="second" min="0" max="59" value="0" />
+
+    <button type="submit">ذخیره</button>
   </form>
 
   <div id="taskList"></div>
-  
+
   <script src="script.js"></script>
 </body>
 </html>
