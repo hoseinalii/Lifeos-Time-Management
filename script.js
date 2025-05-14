@@ -1,112 +1,72 @@
-// script.js
-// تنظیم ورودی تاریخ میلادی/شمسی با تغییر رادیو
-const radioMiladi = document.getElementById('cal-miladi');
-const radioShamsi = document.getElementById('cal-shamsi');
-const dateMiladi = document.getElementById('dateMiladi');
-const dateShamsi = document.getElementById('dateShamsi');
+let tasks = [];
 
-function toggleDateInput() {
-    if (radioMiladi.checked) {
-        dateMiladi.style.display = 'inline';
-        dateShamsi.style.display = 'none';
-        dateMiladi.required = true;
-        dateShamsi.required = false;
-    } else {
-        dateMiladi.style.display = 'none';
-        dateShamsi.style.display = 'inline';
-        dateMiladi.required = false;
-        dateShamsi.required = true;
-    }
-}
-radioMiladi.addEventListener('change', toggleDateInput);
-radioShamsi.addEventListener('change', toggleDateInput);
+function addTask() {
+  const macro = document.getElementById('macroTask').value;
+  const micro = document.getElementById('microTask').value;
+  const dateTime = document.getElementById('taskDateTime').value;
+  const component = document.getElementById('taskComponent').value;
 
-// کلید ذخیره در localStorage
-const TASKS_KEY = 'lifeosTasks';
+  if (!macro || !micro || !dateTime || !component) return alert("تمام فیلدها الزامی هستند.");
 
-// بارگذاری آرایهٔ تسک‌ها از localStorage
-function loadTasks() {
-    const tasksJson = localStorage.getItem(TASKS_KEY);
-    return tasksJson ? JSON.parse(tasksJson) : [];
-}
-// ذخیره آرایهٔ تسک‌ها در localStorage
-function saveTasks(tasks) {
-    localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
+  const task = { macro, micro, dateTime, component };
+  tasks.push(task);
+  scheduleNotification(task);
+  renderTasks();
 }
 
-// تابع نمایش تسک‌ها
-function renderTasks() {
-    const tasks = loadTasks();
-    const taskList = document.getElementById('taskList');
-    taskList.innerHTML = '';
-    // آیکون‌ها و نام فارسی مولفه‌ها
-    const compIcons = {
-        mind: '🧠',
-        body: '💪',
-        resources: '💰',
-        relationships: '🤝',
-        faith: '🕌'
-    };
-    const compNames = {
-        mind: 'ذهن',
-        body: 'جسم',
-        resources: 'منابع',
-        relationships: 'روابط',
-        faith: 'ایمان'
-    };
-    // ایجاد المان برای هر تسک
-    tasks.forEach(task => {
-        const div = document.createElement('div');
-        div.className = 'task ' + task.component;
-        // آیکون مولفه
-        const iconSpan = document.createElement('span');
-        iconSpan.className = 'icon';
-        iconSpan.textContent = compIcons[task.component] || '';
-        div.appendChild(iconSpan);
-        // جزئیات تسک
-        const detailsDiv = document.createElement('div');
-        detailsDiv.className = 'details';
-        let html = '';
-        html += `<p><strong>تسک:</strong> ${task.title}`;
-        html += ` <strong>ریزتسک:</strong> ${task.subtask || '—'}</p>`;
-        html += `<p><strong>تاریخ:</strong> ${task.date} `;
-        html += `<strong>ساعت:</strong> ${task.time}</p>`;
-        html += `<p><strong>مولفه:</strong> ${compNames[task.component] || ''}</p>`;
-        detailsDiv.innerHTML = html;
-        div.appendChild(detailsDiv);
-        taskList.appendChild(div);
-    });
+function renderTasks(filtered = null) {
+  const taskList = document.getElementById('taskList');
+  taskList.innerHTML = '';
+  const list = filtered || tasks;
+
+  list.forEach((task, index) => {
+    const div = document.createElement('div');
+    div.className = 'task';
+    div.innerHTML = `
+      <strong>${task.macro}</strong> - ${task.micro}<br/>
+      زمان: ${task.dateTime}<br/>
+      مولفه: ${task.component}
+      <div class="actions">
+        <button onclick="editTask(${index})">✏️</button>
+        <button onclick="deleteTask(${index})">🗑️</button>
+      </div>
+    `;
+    taskList.appendChild(div);
+  });
 }
 
-// رویداد ثبت فرم تسک جدید
-document.getElementById('taskForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const title = document.getElementById('title').value.trim();
-    const subtask = document.getElementById('subtask').value.trim();
-    const component = document.getElementById('component').value;
-    let dateVal = '';
-    // تعیین مقدار تاریخ بر اساس نوع تقویم
-    if (radioMiladi.checked) {
-        dateVal = dateMiladi.value;
-    } else {
-        dateVal = dateShamsi.value.trim();
-    }
-    const timeVal = document.getElementById('time').value;
-    if (!title || !component || !dateVal || !timeVal) {
-        alert('لطفاً تمام فیلدهای مورد نیاز را پر کنید.');
-        return;
-    }
-    // ساخت شیء تسک و ذخیره
-    const newTask = { title, subtask, date: dateVal, time: timeVal, component };
-    const tasks = loadTasks();
-    tasks.push(newTask);
-    saveTasks(tasks);
-    // بازنشانی فرم و نمایش دوباره تسک‌ها
-    document.getElementById('taskForm').reset();
-    toggleDateInput();
-    renderTasks();
-});
+function deleteTask(index) {
+  tasks.splice(index, 1);
+  renderTasks();
+}
 
-// مقداردهی اولیه فرم و نمایش تسک‌های موجود
-toggleDateInput();
-renderTasks();
+function editTask(index) {
+  const task = tasks[index];
+  document.getElementById('macroTask').value = task.macro;
+  document.getElementById('microTask').value = task.micro;
+  document.getElementById('taskDateTime').value = task.dateTime;
+  document.getElementById('taskComponent').value = task.component;
+  deleteTask(index);
+}
+
+function sortTasks(criteria) {
+  if (criteria === 'date') {
+    tasks.sort((a, b) => new Date(a.dateTime) - new Date(b.dateTime));
+  }
+  renderTasks();
+}
+
+function filterTasks(component) {
+  if (!component) return renderTasks();
+  const filtered = tasks.filter(task => task.component === component);
+  renderTasks(filtered);
+}
+
+function scheduleNotification(task) {
+  const delay = new Date(task.dateTime) - new Date();
+  if (delay > 0) {
+    setTimeout(() => {
+      alert(`یادآوری: ${task.macro} - ${task.micro}`);
+    }, delay);
+  }
+}
