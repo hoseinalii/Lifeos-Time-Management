@@ -1,69 +1,39 @@
-/* style.css */
 body {
-    font-family: sans-serif;
-    background: #f8f8f8;
-    margin: 20px;
-    padding: 10px;
-    direction: rtl;
+  font-family: sans-serif;
+  direction: rtl;
+  padding: 20px;
+  background: #f2f2f2;
 }
-h1, h2 {
-    color: #333;
+
+header {
+  text-align: center;
+  margin-bottom: 20px;
 }
-form {
-    background: #fff;
-    border: 1px solid #ccc;
-    padding: 15px;
-    margin-bottom: 20px;
+
+.task-input input, .task-input select, .task-input button {
+  margin: 5px;
+  padding: 10px;
 }
-.form-group {
-    margin-bottom: 10px;
+
+.controls select {
+  margin: 10px;
+  padding: 5px;
 }
-label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
+
+.task {
+  background: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  position: relative;
 }
-input[type="text"],
-input[type="date"],
-input[type="time"],
-select {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+
+.task .actions {
+  position: absolute;
+  left: 10px;
+  top: 10px;
 }
-button {
-    background: #2196F3;
-    color: #fff;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
+
+.task .actions button {
+  margin-left: 5px;
 }
-button:hover {
-    background: #1976D2;
-}
-/* استایل لیست تسک‌ها */
-#taskList .task {
-    display: flex;
-    align-items: flex-start;
-    background: #fff;
-    border: 1px solid #ccc;
-    border-left: 5px solid #ccc;
-    margin-bottom: 10px;
-    padding: 10px;
-}
-#taskList .icon {
-    font-size: 24px;
-    margin-left: 10px;
-}
-#taskList .details {
-    flex-grow: 1;
-}
-#taskList .details p {
-    margin: 0 0 5px 0;
-}
-/* رنگ‌بندی مولفه‌ها */
-.task.mind { border-left-color: #2196F3; background-color: #E3F2FD; }
-.task.body { border-left-color: #4CAF50; background-color: #E8F5E9; }
-.task.resources { border-left-color: #FF9800; background-color: #FFF3E0; }
-.task.relationships { border-left-color: #9C27B0; background-color: #F3E5F5; }
-.task.faith { border-left-color: #FFC107; background-color: #FFF8E1; }
