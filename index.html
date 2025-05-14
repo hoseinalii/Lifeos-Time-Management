@@ -1,55 +1,79 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <title>مدیریت زمان (LifeOS Time Manager)</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>ماژول مدیریت زمان – LifeOS</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- در آینده برای همگام‌سازی با تقویم گوگل -->
+  <script src="https://apis.google.com/js/api.js" async defer></script>
 </head>
 <body>
-    <h1>مدیریت زمان</h1>
-    <form id="taskForm">
-        <div class="form-group">
-            <label for="title">عنوان تسک (Macro Task):</label>
-            <input type="text" id="title" name="title" placeholder="عنوان را وارد کنید" required>
-        </div>
-        <div class="form-group">
-            <label for="subtask">ریز تسک (Subtask):</label>
-            <input type="text" id="subtask" name="subtask" placeholder="ریز تسک (اختیاری)">
-        </div>
-        <div class="form-group">
-            <label>تقویم:</label>
-            <label><input type="radio" name="calendar" id="cal-miladi" value="miladi" checked> میلادی</label>
-            <label><input type="radio" name="calendar" id="cal-shamsi" value="shamsi"> شمسی</label>
-        </div>
-        <div class="form-group">
-            <label for="dateMiladi">تاریخ:</label>
-            <!-- ورودی تاریخ میلادی -->
-            <input type="date" id="dateMiladi" name="dateMiladi" required>
-            <!-- ورودی تاریخ شمسی (رشته متنی) -->
-            <input type="text" id="dateShamsi" name="dateShamsi" placeholder="مثال: 1402/05/22" style="display: none;">
-        </div>
-        <div class="form-group">
-            <label for="time">ساعت:</label>
-            <input type="time" id="time" name="time" required>
-        </div>
-        <div class="form-group">
-            <label for="component">مولفه زندگی:</label>
-            <select id="component" name="component" required>
-                <option value="">انتخاب کنید</option>
-                <option value="mind">ذهن</option>
-                <option value="body">جسم</option>
-                <option value="resources">منابع</option>
-                <option value="relationships">روابط</option>
-                <option value="faith">ایمان</option>
-            </select>
-        </div>
-        <button type="submit">افزودن تسک</button>
-    </form>
+  <h1>ماژول مدیریت زمان – LifeOS</h1>
 
-    <h2>لیست تسک‌ها</h2>
-    <div id="taskList"></div>
+  <!-- ابزارهای مرتب‌سازی و فیلتر -->
+  <div class="controls">
+    <label for="sortCriteria">مرتب‌سازی بر اساس:</label>
+    <select id="sortCriteria">
+      <option value="dateAsc">تاریخ صعودی</option>
+      <option value="dateDesc">تاریخ نزولی</option>
+      <option value="component">مولفه</option>
+    </select>
 
-    <script src="script.js"></script>
+    <label for="filterComponent">فیلتر مولفه:</label>
+    <select id="filterComponent">
+      <option value="all">همه</option>
+      <option value="health">سلامتی</option>
+      <option value="job">شغل</option>
+      <option value="relationships">روابط</option>
+      <option value="personal">توسعه فردی</option>
+      <option value="finance">مالی</option>
+      <option value="leisure">سرگرمی</option>
+      <option value="spiritual">معنوی</option>
+    </select>
+  </div>
+
+  <!-- فرم ثبت/ویرایش تسک -->
+  <form id="taskForm">
+    <h2 id="formTitle">ثبت تسک جدید</h2>
+    <input type="hidden" id="editIndex" value="">
+
+    <label for="title">عنوان تسک (Macro Task):</label>
+    <input type="text" id="title" required placeholder="مثلاً: برنامه‌ریزی هفتگی">
+
+    <label for="subtask">ریزتسک (Subtask):</label>
+    <input type="text" id="subtask" placeholder="مثلاً: مرور اهداف">
+
+    <label>تقویم:</label>
+    <label><input type="radio" name="calendar" value="miladi" checked> میلادی</label>
+    <label><input type="radio" name="calendar" value="shamsi"> شمسی</label>
+
+    <label for="dateMiladi">تاریخ:</label>
+    <input type="date" id="dateMiladi" required>
+    <input type="text" id="dateShamsi" placeholder="مثلاً: 1404/02/24" style="display:none;">
+
+    <label for="time">ساعت (HH:MM):</label>
+    <input type="time" id="time" required>
+
+    <label for="component">مولفه زندگی:</label>
+    <select id="component" required>
+      <option value="">انتخاب کنید</option>
+      <option value="health">سلامتی</option>
+      <option value="job">شغل</option>
+      <option value="relationships">روابط</option>
+      <option value="personal">توسعه فردی</option>
+      <option value="finance">مالی</option>
+      <option value="leisure">سرگرمی</option>
+      <option value="spiritual">معنوی</option>
+    </select>
+
+    <button type="submit" id="submitBtn">ذخیره</button>
+    <button type="button" id="cancelEdit" style="display:none;">لغو ویرایش</button>
+  </form>
+
+  <h2>لیست تسک‌ها</h2>
+  <div id="taskList"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
