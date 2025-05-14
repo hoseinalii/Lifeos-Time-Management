@@ -1,43 +1,45 @@
 const form = document.getElementById("taskForm");
 const taskList = document.getElementById("taskList");
 
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+function toJalali(gDateStr) {
+  const [gy, gm, gd] = gDateStr.split("-").map(Number);
+  const { jy, jm, jd } = jalaali.toJalaali(gy, gm, gd);
+  return `${jy}/${jm.toString().padStart(2, "0")}/${jd.toString().padStart(2, "0")}`;
+}
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
   const macro = document.getElementById("macroTask").value;
-  const sub = document.getElementById("subtask").value;
-  const component = document.getElementById("lifeComponent").value;
-  const deadline = document.getElementById("deadline").value;
+  const micro = document.getElementById("microTask").value;
+  const date = document.getElementById("taskDate").value;
+  const hour = document.getElementById("hour").value.padStart(2, "0");
+  const minute = document.getElementById("minute").value.padStart(2, "0");
+  const second = document.getElementById("second").value.padStart(2, "0");
 
-  const newTask = {
-    macroTask: macro,
-    subtasks: [{ title: sub, done: false }],
-    lifeComponent: component,
-    deadline,
-    status: "در جریان"
+  const jalali = toJalali(date);
+  const time = `${hour}:${minute}:${second}`;
+  const fullDate = `${date} (میلادی) / ${jalali} (شمسی) – ${time}`;
+
+  const taskData = {
+    macro,
+    micro,
+    fullDate
   };
 
-  tasks.push(newTask);
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  let tasks = JSON.parse(localStorage.getItem("lifeosTasks")) || [];
+  tasks.push(taskData);
+  localStorage.setItem("lifeosTasks", JSON.stringify(tasks));
   renderTasks();
   form.reset();
 });
 
 function renderTasks() {
-  taskList.innerHTML = "";
-  tasks.forEach((task, index) => {
-    const div = document.createElement("div");
-    div.className = "task-item";
-    div.innerHTML = `
-      <strong>${task.macroTask}</strong> - ${task.lifeComponent} <br/>
-      ${task.subtasks.map(st => `<span class="${st.done ? 'done' : ''}">${st.title}</span>`).join("<br/>")}
-      <br/>
-      <small>موعد: ${task.deadline || "ندارد"}</small>
-    `;
-    taskList.appendChild(div);
+  const tasks = JSON.parse(localStorage.getItem("lifeosTasks")) || [];
+  taskList.innerHTML = "<h3>تسک‌های ثبت‌شده:</h3>";
+  tasks.forEach((t, i) => {
+    taskList.innerHTML += `<p><strong>${t.macro}</strong> – ${t.micro} <br> (${t.fullDate})</p><hr>`;
   });
 }
 
-renderTasks();
+window.onload = renderTasks;
