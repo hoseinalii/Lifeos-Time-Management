@@ -1,39 +1,55 @@
+<!-- index.html -->
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ماژول مدیریت زمان – LifeOS</title>
-  <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/jalaali-js@1.1.0/dist/jalaali.min.js"></script>
+    <meta charset="UTF-8">
+    <title>مدیریت زمان (LifeOS Time Manager)</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>ماژول مدیریت زمان – LifeOS</h1>
+    <h1>مدیریت زمان</h1>
+    <form id="taskForm">
+        <div class="form-group">
+            <label for="title">عنوان تسک (Macro Task):</label>
+            <input type="text" id="title" name="title" placeholder="عنوان را وارد کنید" required>
+        </div>
+        <div class="form-group">
+            <label for="subtask">ریز تسک (Subtask):</label>
+            <input type="text" id="subtask" name="subtask" placeholder="ریز تسک (اختیاری)">
+        </div>
+        <div class="form-group">
+            <label>تقویم:</label>
+            <label><input type="radio" name="calendar" id="cal-miladi" value="miladi" checked> میلادی</label>
+            <label><input type="radio" name="calendar" id="cal-shamsi" value="shamsi"> شمسی</label>
+        </div>
+        <div class="form-group">
+            <label for="dateMiladi">تاریخ:</label>
+            <!-- ورودی تاریخ میلادی -->
+            <input type="date" id="dateMiladi" name="dateMiladi" required>
+            <!-- ورودی تاریخ شمسی (رشته متنی) -->
+            <input type="text" id="dateShamsi" name="dateShamsi" placeholder="مثال: 1402/05/22" style="display: none;">
+        </div>
+        <div class="form-group">
+            <label for="time">ساعت:</label>
+            <input type="time" id="time" name="time" required>
+        </div>
+        <div class="form-group">
+            <label for="component">مولفه زندگی:</label>
+            <select id="component" name="component" required>
+                <option value="">انتخاب کنید</option>
+                <option value="mind">ذهن</option>
+                <option value="body">جسم</option>
+                <option value="resources">منابع</option>
+                <option value="relationships">روابط</option>
+                <option value="faith">ایمان</option>
+            </select>
+        </div>
+        <button type="submit">افزودن تسک</button>
+    </form>
 
-  <form id="taskForm">
-    <label>ماکروتسک (وظیفه کلان):</label>
-    <input type="text" id="macroTask" placeholder="مثلاً: نوشتن مقاله" required />
+    <h2>لیست تسک‌ها</h2>
+    <div id="taskList"></div>
 
-    <label>میکروتسک (وظیفه خرد):</label>
-    <input type="text" id="microTask" placeholder="مثلاً: تحقیق منابع اولیه" required />
-
-    <label>تاریخ (میلادی):</label>
-    <input type="date" id="taskDate" required />
-
-    <label>ساعت:</label>
-    <input type="number" id="hour" min="0" max="23" value="12" />
-
-    <label>دقیقه:</label>
-    <input type="number" id="minute" min="0" max="59" value="0" />
-
-    <label>ثانیه:</label>
-    <input type="number" id="second" min="0" max="59" value="0" />
-
-    <button type="submit">ذخیره</button>
-  </form>
-
-  <div id="taskList"></div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
