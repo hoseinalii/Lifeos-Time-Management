@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LifeOS - Time Manager</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>ماژول مدیریت زمان - LifeOS</h1>
+
+  <form id="taskForm">
+    <input type="text" id="macroTask" placeholder="عنوان وظیفه اصلی (Macro Task)" required />
+    <input type="text" id="subtask" placeholder="ریزتسک اول" required />
+    
+    <select id="lifeComponent">
+      <option value="ذهن">ذهن</option>
+      <option value="جسم">جسم</option>
+      <option value="منابع">منابع</option>
+      <option value="روابط">روابط</option>
+      <option value="معنویت">معنویت</option>
+    </select>
+
+    <input type="date" id="deadline" />
+    <button type="submit">افزودن وظیفه</button>
+  </form>
+
+  <div id="taskList"></div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
