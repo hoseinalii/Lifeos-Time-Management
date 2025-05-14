@@ -1,0 +1,29 @@
+body {
+  font-family: sans-serif;
+  direction: rtl;
+  background-color: #fdfdfd;
+  padding: 20px;
+}
+h1 {
+  color: #333;
+}
+form {
+  margin-bottom: 20px;
+}
+input, select, button {
+  display: block;
+  margin: 10px 0;
+  padding: 8px;
+  width: 100%;
+  max-width: 400px;
+}
+.task-item {
+  border: 1px solid #aaa;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #f7f7f7;
+}
+.done {
+  text-decoration: line-through;
+  color: gray;
+}
